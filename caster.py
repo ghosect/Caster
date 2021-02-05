@@ -3,29 +3,27 @@
 import boto3, json, argparse, os, logging, sys, time
 #from datetime import datetime, timedelta - for access log parsing
 
-
 #TODO lots of refactoring, seperate functions and main script, access log parsing options
 
 parser = argparse.ArgumentParser(description='Bucket Inspection Protection:\nModify or create an S3 bucket and add explicit whitelisting in order to evade sandboxing')
 SD = parser.add_mutually_exclusive_group()
 SD.add_argument("-s", "--show_existing",help='show all existing bucket names and exit.\n', action='store_true') #TODO choose bucket from list
-SD.add_argument("-b", "--bucket_name", help='name of bucket you want to create and/or add an ACL policy for.\n', default='test-bip') #logic if bucket not exist to ask if create one or exit, will need to read error from aws-cli output
+SD.add_argument("-b", "--bucket_name", help='name of bucket you want to create and/or add an ACL policy for.\n', default='test-bip') #TODO: logic if bucket not exist to ask if create one or exit, will need to read error from aws-cli output
 FL = parser.add_mutually_exclusive_group()
-FL.add_argument("-i", "--ip_list", nargs='*', help='IPs to whitelist OR blacklist', default=[]) #TODO 
+FL.add_argument("-i", "--ip_list", nargs='*', help='IPs to whitelist OR blacklist', default=[])
 FL.add_argument("-f", "--ip_file", help='file of IPs to whitelist OR blacklist\n')
 parser.add_argument("-n", "--new_bucket", help='create a new bucket\n', action='store_true')
-parser.add_argument("-u", "--uploads", nargs='+', type=os.path.abspath, help='file(s) to upload to the s3 bucket\n') #TODO make this take multiple files, maybe even folders
+parser.add_argument("-u", "--uploads", nargs='+', type=os.path.abspath, help='file(s) to upload to the s3 bucket\n')
 parser.add_argument("-r", "--region", nargs='?', help='set the region of the client session, new buckets will be created in the region of the session\n', default='us-east-2')
 parser.add_argument("-v", "--version", help='bucket policy version to use\n', default='2012-10-17')
 parser.add_argument("-e", "--explicit_blacklist", help='whitelist ALL or explicitly block IPs - using this switch with no IP arguments will allow all IPs\n', action='store_true')
 args = parser.parse_args() 
 
-
 with open('OPs_IPs.json') as f:
 	OPs_IPs = json.load(f)
 	print(f'Your IPs are: {OPs_IPs}')
 
-#start s3 clint sesh
+#start s3 client sesh
 region = args.region
 s3 = boto3.client('s3', region_name=region)
 
