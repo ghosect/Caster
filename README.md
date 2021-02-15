@@ -1,5 +1,5 @@
 # Caster
-Cmdlet to list your S3 buckets, create a new S3 bucket, upload files to a bucket, use policy based IP whitelisting and blacklisting. Supports regioning and allows for IP lists or specifying IPs in the command line. Originially created as a tool to quickly host files meant for Phishing engagements and help protect those files from sandbox inspection, thereby raising success rates and reducing false positives.
+Tool to list your S3 buckets, create a new S3 bucket, upload files to a bucket, use policy based IP whitelisting and blacklisting. Supports regioning and allows for IP lists or specifying IPs in the command line. Originially created as a tool to quickly host files meant for Phishing engagements and help protect those files from sandbox inspection, thereby raising success rates and reducing false positives.
 
 Requirements:
 AWS CLI - install AWS CLI, then run 'aws configure' - https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-prereq 
